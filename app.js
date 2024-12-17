@@ -24,6 +24,7 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours.json`, 'utf-8')
 );
 
+// Get all tours
 app.get('/api/v1/tours', (req, res) => {
   res.status(200).json({
     status: 'success',
@@ -34,6 +35,27 @@ app.get('/api/v1/tours', (req, res) => {
   });
 });
 
+// Get a spacifc tour
+app.get('/api/v1/tours/:id', (req, res) => {
+  const id = +req.params.id;
+  const tour = tours.find((el) => +el.id === id);
+
+  if (!tour) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid ID',
+    });
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      tour,
+    },
+  });
+});
+
+// Post a new tour
 app.post('/api/v1/tours', (req, res) => {
   const newId = tours.length;
   const newTour = Object.assign({ id: newId }, req.body);
@@ -46,6 +68,45 @@ app.post('/api/v1/tours', (req, res) => {
       res.status(201).json(newTour);
     }
   );
+});
+
+// Update a tour
+app.patch('/api/v1/tours/:id', (req, res) => {
+  const id = Number(req.params.id);
+
+  if (id > tours.length) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid ID',
+    });
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      message: `The tour ${id} has beed updated sucessfly.`,
+    },
+  });
+});
+
+// Delete a tour
+app.delete('/api/v1/tours/:id', (req, res) => {
+  const id = req.params.id * 1;
+
+  if (id > tours.length) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid ID',
+    });
+  }
+
+  res.status(204).json({
+    status: 'success',
+    data: {
+      // message: `The tour ${id} has beed deleted sucessfly.`,
+      message: null,
+    },
+  });
 });
 
 const port = 3000;
