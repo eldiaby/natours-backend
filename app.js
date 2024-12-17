@@ -3,6 +3,8 @@ const express = require('express');
 
 const app = express();
 
+app.use(express.json());
+
 // app.get('/', (req, res) => {
 //   res.status(200).json({
 //     message: 'Hello from the other side...',
@@ -30,6 +32,20 @@ app.get('/api/v1/tours', (req, res) => {
       tours,
     },
   });
+});
+
+app.post('/api/v1/tours', (req, res) => {
+  const newId = tours.length;
+  const newTour = Object.assign({ id: newId }, req.body);
+  tours.push(newTour);
+  fs.writeFile(
+    `${__dirname}/dev-data/data/tours.json`,
+    JSON.stringify(tours),
+    'utf-8',
+    (error) => {
+      res.status(201).json(newTour);
+    }
+  );
 });
 
 const port = 3000;
