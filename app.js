@@ -1,24 +1,15 @@
 const fs = require('node:fs');
 const express = require('express');
+const { request } = require('node:http');
 
 const app = express();
 
 app.use(express.json());
 
-// app.get('/', (req, res) => {
-//   res.status(200).json({
-//     message: 'Hello from the other side...',
-//     app: 'natourse',
-//   });
-// });
-
-// app.post('/', (req, res) => {
-//   res.status(200).send(`You can't post at that endpoind...`);
-// });
-
-// app.delete('/users', (req, res) => {
-//   res.status(200).send(`You can't delete at this endpoint...`);
-// });
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  next();
+});
 
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours.json`, 'utf-8')
@@ -27,6 +18,7 @@ const tours = JSON.parse(
 const getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',
+    requestedAt: req.requestTime,
     results: tours.length,
     data: {
       tours,
