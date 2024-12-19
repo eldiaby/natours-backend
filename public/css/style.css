@@ -1314,6 +1314,7 @@ body {
   transition: all 0.2s;
   cursor: pointer;
 }
+
 .form__upload + label:hover {
   background-color: #55c57a;
   color: #fff;
