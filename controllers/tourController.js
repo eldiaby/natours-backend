@@ -14,6 +14,19 @@ module.exports.ckeckID = (req, res, next, value) => {
   next();
 };
 
+module.exports.ckeckBody = (req, res, next) => {
+  const body = req.body;
+  console.log(body.name, body.price);
+
+  if (!body?.name || !body?.price) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Missing name or price!',
+    });
+  }
+  next();
+};
+
 module.exports.getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',

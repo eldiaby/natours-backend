@@ -9,7 +9,7 @@ router.param('id', tourController.ckeckID);
 router
   .route('/')
   .get(tourController.getAllTours)
-  .post(tourController.createTour);
+  .post(tourController.ckeckBody, tourController.createTour);
 
 router
   .route('/:id')
