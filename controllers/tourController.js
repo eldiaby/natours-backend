@@ -55,7 +55,7 @@ module.exports.createTour = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       status: 'Fail',
-      message: 'Invalid data!',
+      message: error,
     });
   }
 };
@@ -84,7 +84,7 @@ module.exports.deleteTour = async (req, res) => {
     await Tour.findByIdAndDelete(req.params.id);
 
     res.status(204).json({
-      status: 'Success'
+      status: 'Success',
       message: 'Have been deleted successfly',
     });
   } catch (error) {
