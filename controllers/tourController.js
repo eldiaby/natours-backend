@@ -3,20 +3,36 @@ const Tour = require('../module/tourModule');
 module.exports.getAllTours = async (req, res) => {
   try {
     // Baild query
-    // 1) Filtering
+
+    // 1-A) Filtering
     const queryObj = { ...req.query };
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((el) => delete queryObj[el]);
-    // 2) Advanced filtering
+    // 1-B) Advanced filtering
     const queryStr = JSON.parse(
       JSON.stringify(queryObj).replace(
         /\b(gte|gt|lte|lt)\b/g,
         (match) => `$${match}`
       )
     );
+    let query = Tour.find(queryStr);
 
-    const query = Tour.find(queryStr);
+    // 2) Sorting
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join(' ');
+      console.log(sortBy);
+      query = query.sort(sortBy);
+    } else {
+      query = query.sort('-createdAt');
+    }
 
+    // 3)Filteration
+    if (req.query.fields) {
+      const fields = req.query.fields.split(',').join(' ');
+      query = query.select(fields);
+    } else {
+      query = query.select('-__v');
+    }
     // Execute query
     const tours = await query;
 
