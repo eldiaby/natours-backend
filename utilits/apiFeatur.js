@@ -34,7 +34,7 @@ class APIFeatures {
     return this;
   }
 
-  // Fields limitation
+  // Fields limitation the query
   limitFields() {
     if (this.queryString.fields) {
       const fields = this.queryString.fields.split(',').join(' ');
