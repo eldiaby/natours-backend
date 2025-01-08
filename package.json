@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "node:development": "nodemon server.js",
+    "node:production": "$env:NODE_ENV='production'; nodemon server.js",
     "node:debug": "ndb server.js"
   },
   "repository": {
