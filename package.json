@@ -1,12 +1,12 @@
 {
   "name": "natours",
   "version": "1.0.0",
-  "description": "Learning node, express and mongoDB.",
+  "description": "A backend application for managing tour bookings, built using Node.js, Express, and MongoDB. This project is part of Jonas Schmedtmann's Node.js course.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "node:development": "nodemon server.js",
-    "node:production": "$env:NODE_ENV='production'; nodemon server.js",
+    "node:production": "cross-env NODE_ENV=production nodemon server.js",
     "node:debug": "ndb server.js"
   },
   "repository": {
@@ -28,6 +28,7 @@
     "morgan": "^1.10.0",
     "nodemailer": "^6.10.0",
     "slugify": "^1.6.6",
-    "validator": "^13.12.0"
+    "validator": "^13.12.0",
+    "cross-env": "^7.0.3"
   }
 }
