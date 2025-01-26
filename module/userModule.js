@@ -44,6 +44,7 @@ const userSchema = new mongoose.Schema({
   passwordResetExpires: Date,
 });
 
+// Middle wares
 userSchema.pre('save', async function (next) {
   //Only run this function if password was actually modified
   if (!this.isModified('password')) return next();
@@ -56,6 +57,15 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+userSchema.pre('save', function (next) {
+  // Run just only when the password modified and the document not new
+  if (!this.isModified('password') || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
+
+// Schema methods
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
