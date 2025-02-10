@@ -42,6 +42,11 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordReserToken: String,
   passwordResetExpires: Date,
+  active: {
+    type: Boolean,
+    default: true,
+    select: false,
+  },
 });
 
 // Middle wares
@@ -62,6 +67,13 @@ userSchema.pre('save', function (next) {
   if (!this.isModified('password') || this.isNew) return next();
 
   this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
+
+// A middle ware to filter the unactive users
+userSchema.pre(/^find/, function (next) {
+  // This points to the current query
+  this.find({ active: { $ne: false } });
   next();
 });
 
