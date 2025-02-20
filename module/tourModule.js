@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
-const User = require('./userModule.js');
+// const User = require('./userModule.js');
 
 const tourSchema = mongoose.Schema(
   {
@@ -109,7 +109,10 @@ const tourSchema = mongoose.Schema(
         day: Number,
       },
     ],
-    guides: Array,
+    guides: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+    },
   },
   {
     toJSON: { virtauls: true },
@@ -126,11 +129,12 @@ tourSchema.pre('save', function (next) {
   next();
 });
 
-tourSchema.pre('save', async function (next) {
-  this.guidesPromises = this.guides.map(async (id) => await User.findById(id));
-  this.guides = await Promise.all(this.guidesPromises);
-  next();
-});
+// Insert guides with child referenceing
+// tourSchema.pre('save', async function (next) {
+//   this.guidesPromises = this.guides.map(async (id) => await User.findById(id));
+//   this.guides = await Promise.all(this.guidesPromises);
+//   next();
+// });
 
 tourSchema.pre(/^find/, function (next) {
   this.find({ secretTour: { $ne: true } });
