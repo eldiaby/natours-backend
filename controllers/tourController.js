@@ -40,7 +40,7 @@ module.exports.getAllTours = catchAsync(async (req, res, next) => {
 });
 
 module.exports.getTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findById(req.params.id);
+  const tour = await Tour.findById(req.params.id).populate({ path: 'reviews' });
 
   if (!tour) {
     return next(new AppError(`there is no tour with this ID`, 404));
