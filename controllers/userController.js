@@ -1,6 +1,7 @@
 const User = require('./../module/userModule.js');
 const catchAsync = require('./../utilits/catchAsync.js');
 const AppError = require('./../utilits/appError.js');
+const Factory = require('./handlerFactory.js');
 
 // local functions
 const filterObj = (obj, ...allowedFields) => {
@@ -48,12 +49,8 @@ module.exports.updateUser = (req, res) => {
   });
 };
 
-module.exports.deleteUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: `This route didn't implement yet!`,
-  });
-};
+// Delete a user
+module.exports.deleteUser = Factory.deleteOne(User);
 
 module.exports.updateMe = catchAsync(async (req, res, next) => {
   // 1) if the user want to update the password

@@ -1,5 +1,6 @@
 const Review = require('./../module/reviewModel.js');
 const catchAsync = require('./../utilits/catchAsync.js');
+const Factory = require('./handlerFactory.js');
 
 module.exports.gerAllReviews = catchAsync(async (req, res, next) => {
   // If there is a spacific tour then get all reviews for this tour else get all treviews in general
@@ -42,3 +43,5 @@ module.exports.createReview = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+module.exports.deleteReview = Factory.deleteOne(Review);
