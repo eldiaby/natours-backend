@@ -42,12 +42,8 @@ module.exports.getUser = (req, res) => {
   });
 };
 
-module.exports.updateUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: `This route didn't implement yet!`,
-  });
-};
+// This not update the password
+module.exports.updateUser = Factory.updateOne(User);
 
 // Delete a user
 module.exports.deleteUser = Factory.deleteOne(User);
