@@ -52,6 +52,12 @@ module.exports.updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
+module.exports.gerMe = (req, res, next) => {
+  // get the current user id from the req.user and pass it for the req.params
+  req.params.id = req.user.id;
+  next();
+};
+
 module.exports.deleteMe = catchAsync(async (req, res, next) => {
   await User.findByIdAndUpdate(req.user.id, { active: false });
 
