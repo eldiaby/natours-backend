@@ -9,26 +9,23 @@ router.post('/login', authController.login);
 router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword/:token', authController.resetPassword);
 
-router.get(
-  '/me',
-  authController.prodect,
-  userController.gerMe,
-  userController.getUser
-);
+// Authentications all rowters from here
+router.use(authController.prodect);
 
-router.patch('/updateMe', authController.prodect, userController.updateMe);
+router.get('/me', userController.gerMe, userController.getUser);
 
-router.delete('/deleteMe', authController.prodect, userController.deleteMe);
+router.patch('/updateMe', userController.updateMe);
 
-router.patch(
-  '/updateMyPassword',
-  authController.prodect,
-  authController.updatePassword
-);
+router.delete('/deleteMe', userController.deleteMe);
+
+router.patch('/updateMyPassword', authController.updatePassword);
+
+//
+router.use(authController.restrictTo('admin'));
 
 router
   .route('/')
-  .get(authController.prodect, userController.getAllUsers)
+  .get(userController.getAllUsers)
   .post(userController.createUser);
 
 router

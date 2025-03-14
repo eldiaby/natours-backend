@@ -9,7 +9,14 @@ const router = express.Router();
 // router.param('id', tourController.ckeckID);
 
 router.route('/tour-stats').get(tourController.getTourStats);
-router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
+
+router
+  .route('/monthly-plan/:year')
+  .get(
+    authController.prodect,
+    authController.restrictTo('admin', 'lead-guide', 'guide'),
+    tourController.getMonthlyPlan
+  );
 
 router
   .route('/top-5-cheap')
@@ -18,12 +25,20 @@ router
 router
   .route('/')
   .get(tourController.getAllTours)
-  .post(tourController.createTour);
+  .post(
+    authController.prodect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.createTour
+  );
 
 router
   .route('/:id')
   .get(tourController.getTour)
-  .patch(tourController.updateTour)
+  .patch(
+    authController.prodect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.updateTour
+  )
   .delete(
     authController.prodect,
     authController.restrictTo('admin', 'lead-guide'),
