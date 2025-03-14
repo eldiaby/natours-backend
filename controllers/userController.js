@@ -16,37 +16,12 @@ const filterObj = (obj, ...allowedFields) => {
 
 // Global functions
 
-module.exports.getAllUsers = catchAsync(async (req, res) => {
-  const users = await User.find();
-
-  res.status(200).json({
-    status: 'success',
-    results: users.length,
-    data: {
-      users,
-    },
-  });
-});
-
 module.exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'error',
-    message: `This route didn't implement yet!`,
+    message: `This route is not defined! Please use /signup insted`,
   });
 };
-
-module.exports.getUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: `This route didn't implement yet!`,
-  });
-};
-
-// This not update the password
-module.exports.updateUser = Factory.updateOne(User);
-
-// Delete a user
-module.exports.deleteUser = Factory.deleteOne(User);
 
 module.exports.updateMe = catchAsync(async (req, res, next) => {
   // 1) if the user want to update the password
@@ -85,3 +60,13 @@ module.exports.deleteMe = catchAsync(async (req, res, next) => {
     data: null,
   });
 });
+
+module.exports.getAllUsers = Factory.getAll(User);
+
+module.exports.getUser = Factory.getOne(User);
+
+// This not update the password
+module.exports.updateUser = Factory.updateOne(User);
+
+// Delete a user
+module.exports.deleteUser = Factory.deleteOne(User);

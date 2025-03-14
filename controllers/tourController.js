@@ -1,8 +1,7 @@
 const Tour = require('../module/tourModule.js');
-const APIFeatures = require('../utilits/apiFeatur.js');
 const catchAsync = require('./../utilits/catchAsync.js');
-const AppError = require('./../utilits/appError.js');
 const Factory = require('./handlerFactory.js');
+// const AppError = require('./../utilits/appError.js');
 
 module.exports.aliasTopTours = (req, res, next) => {
   req.query.limit = '5';
@@ -12,55 +11,9 @@ module.exports.aliasTopTours = (req, res, next) => {
   next();
 };
 
-module.exports.getAllTours = catchAsync(async (req, res, next) => {
-  // Baild query
+module.exports.getAllTours = Factory.getAll(Tour);
 
-  // // 2) Sorting
-
-  // // 3) Field limiting
-
-  // // 4) pagination
-
-  // Execute query
-  const features = new APIFeatures(Tour.find(), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
-
-  const tours = await features.query;
-
-  // Send the response
-  res.status(200).json({
-    status: 'success',
-    results: tours.length,
-    data: {
-      tours,
-    },
-  });
-});
-
-module.exports.getTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findById(req.params.id).populate({ path: 'reviews' });
-
-  if (!tour) {
-    return next(new AppError(`there is no tour with this ID`, 404));
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: { tour },
-  });
-  // const id = +req.params.id;
-  // // const tour = tours.find((el) => +el.id === id);
-
-  // res.status(200).json({
-  //   status: 'success',
-  //   data: {
-  //     tour,
-  //   },
-  // });
-});
+module.exports.getTour = Factory.getOne(Tour, { path: 'reviews' });
 
 module.exports.createTour = Factory.createOne(Tour);
 
