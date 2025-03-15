@@ -8,6 +8,7 @@ const hpp = require('hpp');
 
 const path = require('node:path');
 
+const viewRouter = require('./routes/viewRouter.js');
 const tourRouter = require('./routes/tourRoutes.js');
 const userRouter = require('./routes/userRoutes.js');
 const reviewRouter = require('./routes/reviewRoures.js');
@@ -90,13 +91,7 @@ app.use((req, res, next) => {
 // app.delete('/api/v1/tours/:id', deleteTour);
 
 // Routes
-app.get('/', (req, res) => {
-  res.status(200).render('base', {
-    tour: 'The forst hiker',
-    name: `Jonas`,
-  });
-});
-
+app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
