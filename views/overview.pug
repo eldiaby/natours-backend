@@ -1,4 +1,8 @@
 extends base
+include _card
 
 block content 
-  h1  This is an overview page 
+  main.main 
+    .card-container
+      each tour in tours
+        +cardTemplete(tour)
